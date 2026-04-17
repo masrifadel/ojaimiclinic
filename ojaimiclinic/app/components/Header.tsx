@@ -650,101 +650,112 @@ export default function Header() {
                       }}
                     >
                       {link.hasDropdown ? (
-                        <div>
-                          <a
-                            href={link.href}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              // Navigate to homepage for services
-                              if (pathname !== "/") {
-                                window.location.href = "/#about";
-                              } else {
-                                handleSmoothScroll(e, "#about");
-                              }
-                              setMobileMenuOpen(false);
-                            }}
-                            className="relative block px-6 py-4 rounded-xl overflow-hidden"
-                          >
-                            {/* Glass Card */}
+                        <div className="space-y-2">
+                          {servicesMenu.map((service, serviceIndex) => (
                             <motion.div
-                              className="absolute inset-0 rounded-xl"
-                              style={{
-                                background: isActive
-                                  ? `linear-gradient(135deg, ${elegantGold}33, ${cosmicPurple}33)`
-                                  : `linear-gradient(135deg, ${elegantGold}11, ${cosmicPurple}11)`,
-                                backdropFilter: "blur(25px)",
-                                border: isActive
-                                  ? `1px solid ${elegantGold}66`
-                                  : `1px solid ${elegantGold}22`,
-                              }}
-                              whileHover={{
-                                scale: 1.04,
-                                background: `linear-gradient(135deg, ${elegantGold}22, ${cosmicPurple}22)`,
-                                boxShadow: `0 0 30px ${elegantGold}44`,
-                              }}
-                              transition={{ duration: 0.25 }}
-                            />
-
-                            {/* Liquid Glow Sweep */}
-                            <motion.div
-                              className="absolute inset-0 rounded-xl"
-                              style={{
-                                background: `linear-gradient(120deg, transparent, ${elegantGold}33, transparent)`,
-                                opacity: 0,
-                              }}
-                              whileHover={{
-                                opacity: 1,
-                                x: ["-100%", "100%"],
-                              }}
+                              key={service.name}
+                              initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: 20 }}
                               transition={{
-                                duration: 0.8,
-                                ease: "easeInOut",
-                              }}
-                            />
-
-                            {/* Active Pulse */}
-                            {isActive && (
-                              <motion.div
-                                className="absolute inset-0 rounded-xl"
-                                style={{
-                                  background: `radial-gradient(circle, ${elegantGold}33, transparent)`,
-                                  filter: "blur(12px)",
-                                }}
-                                animate={{
-                                  scale: [1, 1.15, 1],
-                                  opacity: [0.5, 0.9, 0.5],
-                                }}
-                                transition={{
-                                  duration: 2,
-                                  repeat: Infinity,
-                                }}
-                              />
-                            )}
-
-                            {/* Text */}
-                            <motion.span
-                              className={`relative z-10 font-bold tracking-[0.15em] ${
-                                isActive ? "text-white" : "text-blue-300"
-                              }`}
-                              whileHover={{
-                                scale: 1.06,
-                                textShadow: `0 0 20px ${elegantGold}`,
+                                delay: (index + serviceIndex * 0.2) * 0.08,
+                                type: "spring",
+                                stiffness: 140,
+                                damping: 16,
                               }}
                             >
-                              {link.name}
-                            </motion.span>
+                              <Link
+                                href={service.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="relative block px-6 py-4 rounded-xl overflow-hidden"
+                              >
+                                {/* Glass Card */}
+                                <motion.div
+                                  className="absolute inset-0 rounded-xl"
+                                  style={{
+                                    background:
+                                      pathname === service.href
+                                        ? `linear-gradient(135deg, ${elegantGold}33, ${cosmicPurple}33)`
+                                        : `linear-gradient(135deg, ${elegantGold}11, ${cosmicPurple}11)`,
+                                    backdropFilter: "blur(25px)",
+                                    border:
+                                      pathname === service.href
+                                        ? `1px solid ${elegantGold}66`
+                                        : `1px solid ${elegantGold}22`,
+                                  }}
+                                  whileHover={{
+                                    scale: 1.04,
+                                    background: `linear-gradient(135deg, ${elegantGold}22, ${cosmicPurple}22)`,
+                                    boxShadow: `0 0 30px ${elegantGold}44`,
+                                  }}
+                                  transition={{ duration: 0.25 }}
+                                />
 
-                            {/* Bottom Glow Line */}
-                            <motion.div
-                              className="absolute bottom-0 left-0 h-[2px] rounded-full"
-                              style={{
-                                background: `linear-gradient(90deg, transparent, ${elegantGold}, transparent)`,
-                                width: isActive ? "100%" : "0%",
-                              }}
-                              whileHover={{ width: "100%" }}
-                              transition={{ duration: 0.3 }}
-                            />
-                          </a>
+                                {/* Liquid Glow Sweep */}
+                                <motion.div
+                                  className="absolute inset-0 rounded-xl"
+                                  style={{
+                                    background: `linear-gradient(120deg, transparent, ${elegantGold}33, transparent)`,
+                                    opacity: 0,
+                                  }}
+                                  whileHover={{
+                                    opacity: 1,
+                                    x: ["-100%", "100%"],
+                                  }}
+                                  transition={{
+                                    duration: 0.8,
+                                    ease: "easeInOut",
+                                  }}
+                                />
+
+                                {/* Active Pulse */}
+                                {pathname === service.href && (
+                                  <motion.div
+                                    className="absolute inset-0 rounded-xl"
+                                    style={{
+                                      background: `radial-gradient(circle, ${elegantGold}33, transparent)`,
+                                      filter: "blur(12px)",
+                                    }}
+                                    animate={{
+                                      scale: [1, 1.15, 1],
+                                      opacity: [0.5, 0.9, 0.5],
+                                    }}
+                                    transition={{
+                                      duration: 2,
+                                      repeat: Infinity,
+                                    }}
+                                  />
+                                )}
+
+                                {/* Text */}
+                                <motion.span
+                                  className={`relative z-10 font-bold tracking-[0.15em] ${
+                                    pathname === service.href
+                                      ? "text-white"
+                                      : "text-blue-300"
+                                  }`}
+                                  whileHover={{
+                                    scale: 1.06,
+                                    textShadow: `0 0 20px ${elegantGold}`,
+                                  }}
+                                >
+                                  {service.name}
+                                </motion.span>
+
+                                {/* Bottom Glow Line */}
+                                <motion.div
+                                  className="absolute bottom-0 left-0 h-[2px] rounded-full"
+                                  style={{
+                                    background: `linear-gradient(90deg, transparent, ${elegantGold}, transparent)`,
+                                    width:
+                                      pathname === service.href ? "100%" : "0%",
+                                  }}
+                                  whileHover={{ width: "100%" }}
+                                  transition={{ duration: 0.3 }}
+                                />
+                              </Link>
+                            </motion.div>
+                          ))}
                         </div>
                       ) : (
                         <a
