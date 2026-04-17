@@ -18,7 +18,6 @@ export default function CataractSurgery() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[400px] bg-slate-900 text-white p-6">
-
       {/* Title */}
       <h2 className="text-lg mb-6 tracking-widest text-blue-400">
         Cataract Surgery (Auto Simulation)
@@ -26,7 +25,6 @@ export default function CataractSurgery() {
 
       {/* Eye Scene */}
       <div className="relative flex items-center justify-center">
-
         {/* Surgical Light */}
         <motion.div
           className="absolute w-80 h-80 rounded-full"
@@ -43,10 +41,8 @@ export default function CataractSurgery() {
 
         {/* Eye */}
         <div className="relative w-52 h-52 bg-white rounded-full flex items-center justify-center shadow-2xl overflow-hidden">
-
           {/* Iris */}
           <div className="w-28 h-28 bg-blue-500 rounded-full flex items-center justify-center relative overflow-hidden">
-
             {/* Pupil */}
             <div className="w-12 h-12 bg-black rounded-full z-10" />
 
@@ -58,10 +54,7 @@ export default function CataractSurgery() {
                 backdropFilter: "blur(7px)",
               }}
               animate={{
-                opacity:
-                  step === 0 ? 1 :
-                  step === 2 ? 0.6 :
-                  step >= 3 ? 0 : 1,
+                opacity: step === 0 ? 1 : step === 2 ? 0.6 : step >= 3 ? 0 : 1,
               }}
               transition={{ duration: 1 }}
             />
@@ -102,10 +95,7 @@ export default function CataractSurgery() {
         <motion.div
           className="absolute right-[-90px] w-24 h-2 bg-gray-300 rounded-full shadow-lg"
           animate={{
-            x:
-              step === 1 ? -40 :
-              step === 2 ? -80 :
-              step >= 3 ? -120 : 0,
+            x: step === 1 ? -40 : step === 2 ? -80 : step >= 3 ? -120 : 0,
             opacity: step >= 1 ? 1 : 0,
           }}
           transition={{ duration: 0.8 }}
