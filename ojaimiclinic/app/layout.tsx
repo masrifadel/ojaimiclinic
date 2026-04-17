@@ -63,7 +63,7 @@ export const metadata: Metadata = {
       "Expert eye care in Lebanon offering cataract surgery, refractive surgery, and comprehensive eye diagnostics.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/ClinicImage.webp",
         width: 1200,
         height: 630,
         alt: "Dr. Karl Ojaimi Eye Clinic - Advanced Eye Care in Lebanon",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     title: "Dr. Karl Ojaimi Eye Clinic | Advanced Ophthalmic Care in Lebanon",
     description:
       "Expert eye care in Lebanon offering cataract surgery, refractive surgery, and comprehensive eye diagnostics.",
-    images: ["/og-image.jpg"],
+    images: ["/ClinicImage.webp"],
     creator: "@DrKarlOjaimi",
   },
   robots: {

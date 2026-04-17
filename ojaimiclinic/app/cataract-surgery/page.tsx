@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     url: "/cataract-surgery",
     images: [
       {
-        url: "/cataract-surgery-og.jpg",
+        url: "/ClinicImage.webp",
         width: 1200,
         height: 630,
         alt: "Cataract Surgery at Dr. Karl Ojaimi Eye Clinic",
