@@ -12,7 +12,7 @@ const stats = [
 export default function AboutSection() {
   return (
     <section
-      id="about services"
+      id="about"
       className="relative py-24 bg-[#0a0f1a] overflow-hidden"
     >
       {/* Matching Background Glow */}
@@ -22,7 +22,7 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left: Image Grid */}
-          
+
           <div className="relative h-[500px] md:h-[600px]">
             {/* Main Large Image */}
             <motion.div

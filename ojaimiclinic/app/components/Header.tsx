@@ -9,7 +9,7 @@ import { AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { name: "HOME", href: "#hero" },
-  { name: "SERVICES", href: "#services", hasDropdown: true },
+  { name: "SERVICES", href: "#", hasDropdown: true },
   { name: "ABOUT", href: "#about" },
   { name: "CONTACT", href: "#contact" },
 ];
@@ -426,17 +426,13 @@ export default function Header() {
                 className="relative"
               >
                 {link.hasDropdown ? (
-                  <div>
+                  <div className="relative">
                     <a
                       href={link.href}
                       onClick={(e) => {
                         e.preventDefault();
-                        // Navigate to homepage for services
-                        if (pathname !== "/") {
-                          window.location.href = "/#about";
-                        } else {
-                          handleSmoothScroll(e, "#about");
-                        }
+                        e.stopPropagation();
+                        // Do nothing - just prevent any navigation
                       }}
                       onMouseEnter={() => setServicesDropdownOpen(true)}
                       onMouseLeave={() => setServicesDropdownOpen(false)}
@@ -483,6 +479,38 @@ export default function Header() {
                         {link.name}
                       </motion.span>
                     </a>
+
+                    {/* Dropdown Menu */}
+                    <AnimatePresence>
+                      {servicesDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full left-0 mt-2 min-w-[200px] rounded-xl overflow-hidden z-50"
+                          style={{
+                            background: `linear-gradient(135deg, ${deepNavy}f5, ${navyGradient}ee)`,
+                            backdropFilter: "blur(20px)",
+                            border: `1px solid ${elegantGold}33`,
+                            boxShadow: `0 10px 40px ${elegantGold}22`,
+                          }}
+                          onMouseEnter={() => setServicesDropdownOpen(true)}
+                          onMouseLeave={() => setServicesDropdownOpen(false)}
+                        >
+                          {servicesMenu.map((service, serviceIndex) => (
+                            <Link
+                              key={service.name}
+                              href={service.href}
+                              className="block px-4 py-3 text-sm text-gray-300 hover:text-yellow-400 hover:bg-white/10 transition-colors"
+                              onClick={() => setServicesDropdownOpen(false)}
+                            >
+                              {service.name}
+                            </Link>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 ) : (
                   <a
@@ -564,38 +592,6 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Dropdown Menu */}
-        <AnimatePresence>
-          {servicesDropdownOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="absolute top-full left-0 mt-2 min-w-[200px] rounded-xl overflow-hidden"
-              style={{
-                background: `linear-gradient(135deg, ${deepNavy}f5, ${navyGradient}ee)`,
-                backdropFilter: "blur(20px)",
-                border: `1px solid ${elegantGold}33`,
-                boxShadow: `0 10px 40px ${elegantGold}22`,
-              }}
-              onMouseEnter={() => setServicesDropdownOpen(true)}
-              onMouseLeave={() => setServicesDropdownOpen(false)}
-            >
-              {servicesMenu.map((service, serviceIndex) => (
-                <Link
-                  key={service.name}
-                  href={service.href}
-                  className="block px-4 py-3 text-sm text-gray-300 hover:text-yellow-400 hover:bg-white/10 transition-colors"
-                  onClick={() => setServicesDropdownOpen(false)}
-                >
-                  {service.name}
-                </Link>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -635,6 +631,119 @@ export default function Header() {
               <nav className="relative flex flex-col p-6 space-y-4">
                 {navLinks.map((link, index) => {
                   const isActive = pathname === link.href;
+
+                  // Skip SERVICES button in mobile menu, show individual services instead
+                  if (link.hasDropdown) {
+                    return (
+                      <div key={link.name} className="space-y-2">
+                        {servicesMenu.map((service, serviceIndex) => (
+                          <motion.div
+                            key={service.name}
+                            initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 20 }}
+                            transition={{
+                              delay: (index + serviceIndex * 0.2) * 0.08,
+                              type: "spring",
+                              stiffness: 140,
+                              damping: 16,
+                            }}
+                          >
+                            <Link
+                              href={service.href}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="relative block px-6 py-4 rounded-xl overflow-hidden"
+                            >
+                              {/* Glass Card */}
+                              <motion.div
+                                className="absolute inset-0 rounded-xl"
+                                style={{
+                                  background:
+                                    pathname === service.href
+                                      ? `linear-gradient(135deg, ${elegantGold}33, ${cosmicPurple}33)`
+                                      : `linear-gradient(135deg, ${elegantGold}11, ${cosmicPurple}11)`,
+                                  backdropFilter: "blur(25px)",
+                                  border:
+                                    pathname === service.href
+                                      ? `1px solid ${elegantGold}66`
+                                      : `1px solid ${elegantGold}22`,
+                                }}
+                                whileHover={{
+                                  scale: 1.04,
+                                  background: `linear-gradient(135deg, ${elegantGold}22, ${cosmicPurple}22)`,
+                                  boxShadow: `0 0 30px ${elegantGold}44`,
+                                }}
+                                transition={{ duration: 0.25 }}
+                              />
+
+                              {/* Liquid Glow Sweep */}
+                              <motion.div
+                                className="absolute inset-0 rounded-xl"
+                                style={{
+                                  background: `linear-gradient(120deg, transparent, ${elegantGold}33, transparent)`,
+                                  opacity: 0,
+                                }}
+                                whileHover={{
+                                  opacity: 1,
+                                  x: ["-100%", "100%"],
+                                }}
+                                transition={{
+                                  duration: 0.8,
+                                  ease: "easeInOut",
+                                }}
+                              />
+
+                              {/* Active Pulse */}
+                              {pathname === service.href && (
+                                <motion.div
+                                  className="absolute inset-0 rounded-xl"
+                                  style={{
+                                    background: `radial-gradient(circle, ${elegantGold}33, transparent)`,
+                                    filter: "blur(12px)",
+                                  }}
+                                  animate={{
+                                    scale: [1, 1.15, 1],
+                                    opacity: [0.5, 0.9, 0.5],
+                                  }}
+                                  transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                  }}
+                                />
+                              )}
+
+                              {/* Text */}
+                              <motion.span
+                                className={`relative z-10 font-bold tracking-[0.15em] ${
+                                  pathname === service.href
+                                    ? "text-white"
+                                    : "text-blue-300"
+                                }`}
+                                whileHover={{
+                                  scale: 1.06,
+                                  textShadow: `0 0 20px ${elegantGold}`,
+                                }}
+                              >
+                                {service.name}
+                              </motion.span>
+
+                              {/* Bottom Glow Line */}
+                              <motion.div
+                                className="absolute bottom-0 left-0 h-[2px] rounded-full"
+                                style={{
+                                  background: `linear-gradient(90deg, transparent, ${elegantGold}, transparent)`,
+                                  width:
+                                    pathname === service.href ? "100%" : "0%",
+                                }}
+                                whileHover={{ width: "100%" }}
+                                transition={{ duration: 0.3 }}
+                              />
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </div>
+                    );
+                  }
 
                   return (
                     <motion.div
@@ -691,47 +800,8 @@ export default function Header() {
                           }}
                         />
 
-                        {/* Glass Card */}
-                        <motion.div
-                          className="absolute inset-0 rounded-xl"
-                          style={{
-                            background:
-                              pathname === link.href
-                                ? `linear-gradient(135deg, ${elegantGold}33, ${cosmicPurple}33)`
-                                : `linear-gradient(135deg, ${elegantGold}11, ${cosmicPurple}11)`,
-                            backdropFilter: "blur(25px)",
-                            border:
-                              pathname === link.href
-                                ? `1px solid ${elegantGold}66`
-                                : `1px solid ${elegantGold}22`,
-                          }}
-                          whileHover={{
-                            scale: 1.04,
-                            background: `linear-gradient(135deg, ${elegantGold}22, ${cosmicPurple}22)`,
-                            boxShadow: `0 0 30px ${elegantGold}44`,
-                          }}
-                          transition={{ duration: 0.25 }}
-                        />
-
-                        {/* Liquid Glow Sweep */}
-                        <motion.div
-                          className="absolute inset-0 rounded-xl"
-                          style={{
-                            background: `linear-gradient(120deg, transparent, ${elegantGold}33, transparent)`,
-                            opacity: 0,
-                          }}
-                          whileHover={{
-                            opacity: 1,
-                            x: ["-100%", "100%"],
-                          }}
-                          transition={{
-                            duration: 0.8,
-                            ease: "easeInOut",
-                          }}
-                        />
-
                         {/* Active Pulse */}
-                        {pathname === link.href && (
+                        {isActive && (
                           <motion.div
                             className="absolute inset-0 rounded-xl"
                             style={{
@@ -752,9 +822,7 @@ export default function Header() {
                         {/* Text */}
                         <motion.span
                           className={`relative z-10 font-bold tracking-[0.15em] ${
-                            pathname === link.href
-                              ? "text-white"
-                              : "text-blue-300"
+                            isActive ? "text-white" : "text-blue-300"
                           }`}
                           whileHover={{
                             scale: 1.06,
@@ -769,7 +837,7 @@ export default function Header() {
                           className="absolute bottom-0 left-0 h-[2px] rounded-full"
                           style={{
                             background: `linear-gradient(90deg, transparent, ${elegantGold}, transparent)`,
-                            width: pathname === link.href ? "100%" : "0%",
+                            width: isActive ? "100%" : "0%",
                           }}
                           whileHover={{ width: "100%" }}
                           transition={{ duration: 0.3 }}
