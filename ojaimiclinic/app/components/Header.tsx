@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useState, useEffect } from "react";
 import { FaEye, FaBars, FaTimes } from "react-icons/fa";
+import { AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { name: "HOME", href: "/" },
@@ -150,6 +151,11 @@ export default function Header() {
                   style={{
                     background: elegantGold,
                     boxShadow: `0 0 6px ${elegantGold}`,
+                    transformOrigin: "center",
+                    left: "50%",
+                    top: "50%",
+                    marginLeft: "-4px",
+                    marginTop: "-4px",
                   }}
                   animate={{
                     rotate: 360,
@@ -158,13 +164,6 @@ export default function Header() {
                     duration: 3 + i * 2,
                     repeat: Infinity,
                     ease: "linear",
-                  }}
-                  style={{
-                    transformOrigin: "center",
-                    left: "50%",
-                    top: "50%",
-                    marginLeft: "-4px",
-                    marginTop: "-4px",
                   }}
                 />
               ))}
@@ -188,15 +187,17 @@ export default function Header() {
             <motion.p
               className="text-xs tracking-[0.3em] font-bold uppercase italic"
               style={{ color: elegantGold }}
-              animate={{
-                background: [
-                  `linear-gradient(90deg, ${elegantGold}, ${cosmicPurple}, ${elegantGold})`,
-                ],
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundSize: "200% 100%",
-              }}
+              animate={
+                {
+                  background: [
+                    `linear-gradient(90deg, ${elegantGold}, ${cosmicPurple}, ${elegantGold})`,
+                  ],
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  color: "transparent",
+                  backgroundSize: "200% 100%",
+                } as any
+              }
               transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
             >
               Eye Clinic
@@ -204,17 +205,174 @@ export default function Header() {
           </motion.div>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="sm:hidden text-blue-100 p-2"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        {/* Premium Mobile Menu Button */}
+        <motion.button
+          className="sm:hidden relative w-12 h-12 z-50 flex items-center justify-center"
+          onClick={() => {
+            setMobileMenuOpen(!mobileMenuOpen);
+          }}
+          whileHover={{
+            scale: 1.15,
+            rotate: [0, 5, -5, 0],
+          }}
+          whileTap={{ scale: 0.9 }}
+          style={{
+            background: `linear-gradient(135deg, ${elegantGold}22, ${cosmicPurple}22)`,
+            backdropFilter: "blur(20px)",
+            border: `1px solid ${elegantGold}44`,
+            borderRadius: "12px",
+            boxShadow: `0 4px 20px ${elegantGold}33, inset 0 0 20px ${elegantGold}11`,
+          }}
         >
-          {mobileMenuOpen ? (
-            <FaTimes className="text-2xl" />
-          ) : (
-            <FaBars className="text-2xl" />
-          )}
-        </button>
+          {/* Animated Background Glow */}
+          <motion.div
+            className="absolute inset-0 rounded-lg"
+            style={{
+              background: `radial-gradient(circle, ${elegantGold}22, transparent)`,
+              filter: "blur(8px)",
+            }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+
+          {/* Morphing Hamburger/X Lines */}
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            className="relative z-10 "
+          >
+            {/* Top Line */}
+            <motion.line
+              x1="4"
+              y1="6"
+              x2="20"
+              y2="6"
+              stroke={elegantGold}
+              strokeWidth="2"
+              strokeLinecap="round"
+              animate={{
+                rotate: mobileMenuOpen ? 45 : 0,
+                y1: mobileMenuOpen ? 12 : 6,
+                y2: mobileMenuOpen ? 12 : 6,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 15,
+                mass: 0.8,
+              }}
+            />
+
+            {/* Middle Line */}
+            <motion.line
+              x1="4"
+              y1="12"
+              x2="20"
+              y2="12"
+              stroke={elegantGold}
+              strokeWidth="2"
+              strokeLinecap="round"
+              animate={{
+                opacity: mobileMenuOpen ? 0 : 1,
+                x1: mobileMenuOpen ? 12 : 4,
+                x2: mobileMenuOpen ? 12 : 20,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 15,
+                mass: 0.8,
+              }}
+            />
+
+            {/* Bottom Line */}
+            <motion.line
+              x1="4"
+              y1="18"
+              x2="20"
+              y2="18"
+              stroke={elegantGold}
+              strokeWidth="2"
+              strokeLinecap="round"
+              animate={{
+                rotate: mobileMenuOpen ? -45 : 0,
+                y1: mobileMenuOpen ? 12 : 18,
+                y2: mobileMenuOpen ? 12 : 18,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 15,
+                mass: 0.8,
+              }}
+            />
+          </svg>
+
+          {/* Ripple Effect */}
+          <motion.div
+            className="absolute inset-0 rounded-lg"
+            style={{
+              background: `radial-gradient(circle, ${elegantGold}22, transparent)`,
+              filter: "blur(8px)",
+            }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+
+          {/* Floating Particles */}
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 rounded-full"
+              style={{
+                background: elegantGold,
+                boxShadow: `0 0 4px ${elegantGold}`,
+                left: `${20 + i * 8}px`,
+                top: `${4 + i * 4}px`,
+              }}
+              animate={{
+                x: [0, 20, 0],
+                y: [0, -10, 0],
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: 2 + i * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.3,
+              }}
+            />
+          ))}
+
+          {/* Hover Ring Effect */}
+          <motion.div
+            className="absolute inset-0 rounded-lg border-2"
+            style={{
+              borderColor: elegantGold,
+              opacity: 0,
+            }}
+            whileHover={{
+              opacity: 1,
+              scale: 1.1,
+            }}
+            transition={{ duration: 0.3 }}
+          />
+        </motion.button>
 
         {/* Navigation Section */}
         <nav className="hidden sm:flex items-center gap-2 relative z-10">
@@ -293,52 +451,151 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Mobile Menu */}
-        <motion.div
-          className={`sm:hidden absolute top-full left-0 right-0 ${deepNavy} border-t border-${elegantGold}22`}
-          initial={{ height: 0, opacity: 0 }}
-          animate={{
-            height: mobileMenuOpen ? "auto" : 0,
-            opacity: mobileMenuOpen ? 1 : 0,
-          }}
-          transition={{ duration: 0.3 }}
-          style={{ overflow: "hidden" }}
-        >
-          <nav className="flex flex-col p-4 space-y-2">
-            {navLinks.map((link, index) => {
-              const isActive = pathname === link.href;
-              return (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Link
-                    href={link.href}
-                    className="relative px-4 py-3 text-sm font-bold tracking-[0.15em] block text-blue-100"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <motion.span
-                      className={`relative z-10 block ${isActive ? "text-blue-100" : "text-blue-300"}`}
-                      whileHover={{ color: "#dbeafe", scale: 1.05 }}
-                      transition={{ duration: 0.2 }}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              className="sm:hidden absolute top-full left-0 right-0 z-40 overflow-hidden"
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              style={{
+                background: `linear-gradient(135deg, ${deepNavy}f5, ${navyGradient}ee)`,
+                backdropFilter: "blur(40px)",
+                WebkitBackdropFilter: "blur(40px)",
+                borderTop: `1px solid ${elegantGold}33`,
+                boxShadow: `
+          0 30px 80px ${elegantGold}22,
+          inset 0 0 60px ${elegantGold}11
+        `,
+              }}
+            >
+              {/* Glow Overlay */}
+              <motion.div
+                className="absolute inset-0"
+                style={{
+                  background: `radial-gradient(circle at 50% 0%, ${elegantGold}22, transparent 70%)`,
+                  filter: "blur(40px)",
+                }}
+                animate={{
+                  opacity: [0.4, 0.7, 0.4],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+
+              <nav className="relative flex flex-col p-6 space-y-4">
+                {navLinks.map((link, index) => {
+                  const isActive = pathname === link.href;
+
+                  return (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 20 }}
+                      transition={{
+                        delay: index * 0.08,
+                        type: "spring",
+                        stiffness: 140,
+                        damping: 16,
+                      }}
                     >
-                      {link.name}
-                    </motion.span>
-                    {isActive && (
-                      <motion.div
-                        className="absolute left-0 top-0 bottom-0 w-1"
-                        style={{ background: elegantGold }}
-                        layoutId="mobile-active-pill"
-                      />
-                    )}
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </nav>
-        </motion.div>
+                      <Link
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="relative block px-6 py-4 rounded-xl overflow-hidden"
+                      >
+                        {/* Glass Card */}
+                        <motion.div
+                          className="absolute inset-0 rounded-xl"
+                          style={{
+                            background: isActive
+                              ? `linear-gradient(135deg, ${elegantGold}33, ${cosmicPurple}33)`
+                              : `linear-gradient(135deg, ${elegantGold}11, ${cosmicPurple}11)`,
+                            backdropFilter: "blur(25px)",
+                            border: isActive
+                              ? `1px solid ${elegantGold}66`
+                              : `1px solid ${elegantGold}22`,
+                          }}
+                          whileHover={{
+                            scale: 1.04,
+                            background: `linear-gradient(135deg, ${elegantGold}22, ${cosmicPurple}22)`,
+                            boxShadow: `0 0 30px ${elegantGold}44`,
+                          }}
+                          transition={{ duration: 0.25 }}
+                        />
+
+                        {/* Liquid Glow Sweep */}
+                        <motion.div
+                          className="absolute inset-0 rounded-xl"
+                          style={{
+                            background: `linear-gradient(120deg, transparent, ${elegantGold}33, transparent)`,
+                            opacity: 0,
+                          }}
+                          whileHover={{
+                            opacity: 1,
+                            x: ["-100%", "100%"],
+                          }}
+                          transition={{
+                            duration: 0.8,
+                            ease: "easeInOut",
+                          }}
+                        />
+
+                        {/* Active Pulse */}
+                        {isActive && (
+                          <motion.div
+                            className="absolute inset-0 rounded-xl"
+                            style={{
+                              background: `radial-gradient(circle, ${elegantGold}33, transparent)`,
+                              filter: "blur(12px)",
+                            }}
+                            animate={{
+                              scale: [1, 1.15, 1],
+                              opacity: [0.5, 0.9, 0.5],
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                            }}
+                          />
+                        )}
+
+                        {/* Text */}
+                        <motion.span
+                          className={`relative z-10 font-bold tracking-[0.15em] ${
+                            isActive ? "text-white" : "text-blue-300"
+                          }`}
+                          whileHover={{
+                            scale: 1.06,
+                            textShadow: `0 0 20px ${elegantGold}`,
+                          }}
+                        >
+                          {link.name}
+                        </motion.span>
+
+                        {/* Bottom Glow Line */}
+                        <motion.div
+                          className="absolute bottom-0 left-0 h-[2px] rounded-full"
+                          style={{
+                            background: `linear-gradient(90deg, transparent, ${elegantGold}, transparent)`,
+                            width: isActive ? "100%" : "0%",
+                          }}
+                          whileHover={{ width: "100%" }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
     </>
   );
