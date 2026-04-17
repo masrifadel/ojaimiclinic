@@ -9,9 +9,7 @@ import { AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { name: "HOME", href: "#hero" },
-  { name: "Cataract Surgery", href: "/cataract-surgery" },
-  { name: "Refractive Surgery", href: "/refractive-surgery" },
-  { name: "Clinic Diagnosis", href: "/clinic-diagnosis" },
+  { name: "SERVICES", href: "#services", hasDropdown: true },
   { name: "ABOUT", href: "#about" },
   { name: "CONTACT", href: "#contact" },
 ];
@@ -427,9 +425,69 @@ export default function Header() {
                 transition={{ delay: index * 0.1 }}
                 className="relative"
               >
-                {link.href.startsWith("/") ? (
-                  <Link
+                {link.hasDropdown ? (
+                  <div>
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // Navigate to homepage for services
+                        if (pathname !== "/") {
+                          window.location.href = "/#about";
+                        } else {
+                          handleSmoothScroll(e, "#about");
+                        }
+                      }}
+                      onMouseEnter={() => setServicesDropdownOpen(true)}
+                      onMouseLeave={() => setServicesDropdownOpen(false)}
+                      className="relative px-4 sm:px-6 py-3 text-xs font-bold tracking-[0.15em] block"
+                    >
+                      {/* Glassmorphism Background */}
+                      <motion.div
+                        className="absolute inset-0 rounded-full"
+                        style={{
+                          background: isActive
+                            ? `linear-gradient(135deg, ${elegantGold}22, ${cosmicPurple}22)`
+                            : "transparent",
+                          border: isActive
+                            ? `1px solid ${elegantGold}66`
+                            : `1px solid transparent`,
+                          backdropFilter: "blur(10px)",
+                        }}
+                        whileHover={{
+                          background: `linear-gradient(135deg, ${elegantGold}11, ${cosmicPurple}11)`,
+                          border: `1px solid ${elegantGold}44`,
+                        }}
+                        transition={{ duration: 0.3 }}
+                      />
+
+                      {/* Hover Glow Effect */}
+                      <motion.div
+                        className="absolute inset-0 rounded-full opacity-0"
+                        style={{
+                          background: `radial-gradient(circle, ${elegantGold}44, transparent)`,
+                          filter: "blur(8px)",
+                        }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+
+                      {/* Text */}
+                      <motion.span
+                        className={`relative z-10 ${
+                          isActive ? "text-white" : "text-blue-300"
+                        }`}
+                        whileHover={{ color: "#feca57" }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        {link.name}
+                      </motion.span>
+                    </a>
+                  </div>
+                ) : (
+                  <a
                     href={link.href}
+                    onClick={(e) => handleSmoothScroll(e, link.href)}
                     className="relative px-4 sm:px-6 py-3 text-xs font-bold tracking-[0.15em] block"
                   >
                     {/* Glassmorphism Background */}
@@ -459,42 +517,6 @@ export default function Header() {
                         filter: "blur(8px)",
                       }}
                       whileHover={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                    />
-
-                    {/* Text */}
-                    <motion.span
-                      className={`relative z-10 ${
-                        isActive ? "text-white" : "text-blue-300"
-                      }`}
-                      whileHover={{ color: "#feca57" }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      {link.name}
-                    </motion.span>
-                  </Link>
-                ) : (
-                  <a
-                    href={link.href}
-                    onClick={(e) => handleSmoothScroll(e, link.href)}
-                    className="relative px-4 sm:px-6 py-3 text-xs font-bold tracking-[0.15em] block"
-                  >
-                    {/* Glassmorphism Background */}
-                    <motion.div
-                      className="absolute inset-0 rounded-full"
-                      style={{
-                        background: isActive
-                          ? `linear-gradient(135deg, ${elegantGold}22, ${cosmicPurple}22)`
-                          : "transparent",
-                        border: isActive
-                          ? `1px solid ${elegantGold}66`
-                          : `1px solid transparent`,
-                        backdropFilter: "blur(10px)",
-                      }}
-                      whileHover={{
-                        background: `linear-gradient(135deg, ${elegantGold}11, ${cosmicPurple}11)`,
-                        border: `1px solid ${elegantGold}44`,
-                      }}
                       transition={{ duration: 0.3 }}
                     />
 
@@ -541,6 +563,38 @@ export default function Header() {
             );
           })}
         </nav>
+
+        {/* Dropdown Menu */}
+        <AnimatePresence>
+          {servicesDropdownOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-full left-0 mt-2 min-w-[200px] rounded-xl overflow-hidden"
+              style={{
+                background: `linear-gradient(135deg, ${deepNavy}f5, ${navyGradient}ee)`,
+                backdropFilter: "blur(20px)",
+                border: `1px solid ${elegantGold}33`,
+                boxShadow: `0 10px 40px ${elegantGold}22`,
+              }}
+              onMouseEnter={() => setServicesDropdownOpen(true)}
+              onMouseLeave={() => setServicesDropdownOpen(false)}
+            >
+              {servicesMenu.map((service, serviceIndex) => (
+                <Link
+                  key={service.name}
+                  href={service.href}
+                  className="block px-4 py-3 text-sm text-gray-300 hover:text-yellow-400 hover:bg-white/10 transition-colors"
+                  onClick={() => setServicesDropdownOpen(false)}
+                >
+                  {service.name}
+                </Link>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <AnimatePresence>
           {mobileMenuOpen && (

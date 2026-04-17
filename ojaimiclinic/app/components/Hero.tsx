@@ -161,7 +161,9 @@ export default function Hero() {
 
                 <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
                   <a
-                    href="#"
+                    href="https://wa.me/96181174657"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-green-600 hover:bg-green-500 text-white rounded-full transition-all"
                   >
                     <FaWhatsapp /> WhatsApp
