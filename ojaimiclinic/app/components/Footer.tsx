@@ -9,6 +9,7 @@ import {
   FaFacebook,
   FaInstagram,
   FaTwitter,
+  FaWhatsapp,
 } from "react-icons/fa";
 
 export default function Footer() {
@@ -111,6 +112,15 @@ export default function Footer() {
                 className="text-gray-400 transition-colors"
               >
                 <FaTwitter className="text-xl" />
+              </motion.a>
+              <motion.a
+                href="https://wa.me/96181174657"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1, color: "#25D366" }}
+                className="text-gray-400 transition-colors"
+              >
+                <FaWhatsapp className="text-xl" />
               </motion.a>
             </div>
           </motion.div>
