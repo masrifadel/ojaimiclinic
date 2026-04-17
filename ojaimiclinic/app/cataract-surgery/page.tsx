@@ -1,6 +1,5 @@
 "use client";
 
-import { Metadata } from "next";
 import { motion } from "framer-motion";
 import {
   FaEye,
@@ -10,26 +9,13 @@ import {
   FaUserMd,
   FaHospital,
 } from "react-icons/fa";
-
-export const metadata: Metadata = {
-  title: "Cataract Surgery | Dr. Karl Ojaimi Eye Clinic",
-  description:
-    "Advanced cataract surgery using phacoemulsification technology. Expert care with Dr. Karl Ojaimi in Baabda, Lebanon. Quick recovery and excellent visual outcomes.",
-  keywords: [
-    "cataract surgery Lebanon",
-    "phacoemulsification",
-    "cataract removal",
-    "lens replacement surgery",
-    "eye surgery Lebanon",
-    "Dr. Karl Ojaimi cataract",
-    "cataract treatment Baabda",
-  ],
-};
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { metadata } from "./metadata";
 
 export default function CataractSurgery() {
   return (
     <div className="min-h-screen bg-[#0a0f1a] text-white">
-
       <main className="pt-24">
         {/* Hero Section */}
         <section className="relative py-20 px-6 overflow-hidden">
